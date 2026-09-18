@@ -18,7 +18,7 @@ This version is aligned to the latest resume uploaded in the chat.
 ## Still intentionally left as placeholders
 
 - Real project images/videos/plots
-- Final "Why it matters" sentences
+- Final "Why it matters" sentences (the headings are present, but the content is intentionally blank for now)
 - Any additional project-specific detail not supported by the latest resume
 - Final design-justification memo (a separate required deliverable)
 

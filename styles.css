@@ -132,14 +132,6 @@ h1 {
 .project-copy ul { margin-top: 0; padding-left: 1.2rem; }
 .project-copy li + li { margin-top: 6px; }
 
-.todo {
-  padding: 12px 14px;
-  background: #fffdf3;
-  border: 1px dashed #c8b969;
-  border-radius: 8px;
-  color: #665d2d;
-}
-
 .media-placeholder {
   min-height: 260px;
   padding: 24px;
@@ -179,4 +171,11 @@ footer { border-top: 1px solid var(--border); background: white; }
   nav { gap: 14px; }
   .hero { padding: 64px 0 48px; }
   .footer-inner { align-items: flex-start; flex-direction: column; justify-content: center; padding: 20px 0; }
+}
+
+.placeholder-empty { min-height: 1rem; }
+
+.why-placeholder {
+  min-height: 0.8rem;
+  margin: 0;
 }
