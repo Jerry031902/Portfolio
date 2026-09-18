@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Jiaming Huang — robotics software, controls, state estimation, and embedded systems portfolio." />
+  <title>Jiaming Huang | Engineering Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <a class="brand" href="#top">Jiaming Huang</a>
+      <nav aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#work">Projects</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <p class="eyebrow">Robotics Software · Controls · Embedded Systems</p>
+      <h1>Software for robots and dynamic physical systems.</h1>
+      <p class="lede">
+        I am an M.S. Mechanical Engineering – Research student at Carnegie Mellon University
+        working across controls, state estimation, robotics software, and hardware integration.
+        My projects span ROS 2 / Isaac Sim, embedded feedback control, inverse kinematics,
+        learned actuation models, and end-to-end robot system integration.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="#work">View projects</a>
+        <a class="button secondary" href="assets/Jiaming_Huang_Resume.pdf" target="_blank" rel="noopener">Open resume</a>
+      </div>
+    </section>
+
+    <section id="about" class="section wrap">
+      <div class="section-heading">
+        <p class="eyebrow">About</p>
+        <h2>Engineering software close to the physical system</h2>
+      </div>
+
+      <div class="about-grid">
+        <div>
+          <p>
+            I am most interested in engineering roles where software interacts directly with
+            sensing, dynamics, feedback, and actuation. That includes controls and state estimation,
+            as well as adjacent robotics systems, embedded controls, localization/navigation, and GNC-style work.
+          </p>
+          <p>
+            My mechanical engineering background helps me reason about the physical system,
+            while my software and robotics experience lets me carry those ideas into simulation,
+            onboard code, and real hardware.
+          </p>
+        </div>
+
+        <aside class="skills-card" aria-label="Skills at a glance">
+          <h3>Skills at a glance</h3>
+          <div class="chips">
+            <span>Python</span><span>C++ / C</span><span>MATLAB / Simulink</span>
+            <span>ROS 2</span><span>Isaac Sim</span><span>Docker</span>
+            <span>PD / PID control</span><span>Inverse kinematics</span><span>Servo calibration</span>
+            <span>IMU integration</span><span>ESP32 / ESP8266</span><span>Fusion 360</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="work" class="section wrap">
+      <div class="section-heading">
+        <p class="eyebrow">Selected work</p>
+        <h2>Projects & experiences</h2>
+        <p class="section-intro">
+          Each section highlights the engineering problem, my specific contribution,
+          evidence/results, and the value of the work.
+        </p>
+      </div>
+
+      <article class="project">
+        <div class="project-topline">
+          <div>
+            <p class="project-kicker">Graduate research · Carnegie Mellon University</p>
+            <h3>VLM-Guided Visual Inspection with Boston Dynamics Spot</h3>
+          </div>
+          <p class="project-date">Aug 2025 – Present</p>
+        </div>
+
+        <div class="project-grid">
+          <div class="project-copy">
+            <h4>Problem / goal</h4>
+            <p>
+              Build a simulated inspection pipeline that can locate gauges, select useful viewpoints,
+              navigate safely, and avoid verifying readings when the target is not actually visible.
+            </p>
+
+            <h4>My contribution</h4>
+            <ul>
+              <li>Built an Isaac Sim 5.0 + ROS 2 + Python + Docker inspection pipeline with RGB-D gauge localization.</li>
+              <li>Compared VLM-only and geometry-verified navigation across 80 simulated episodes.</li>
+              <li>Developed a closed-loop VLM viewpoint policy using camera images, an occupancy map, and observation history.</li>
+              <li>Integrated footprint-aware collision checking and C++ graph-based planning with Spot's walking controller.</li>
+            </ul>
+
+            <h4>Evidence / results</h4>
+            <ul>
+              <li>Gauge localization accuracy: approximately 1 cm.</li>
+              <li>Visibility verification reduced incorrectly verified readings from 2 to 0 and lowered API cost by 44%.</li>
+              <li>The viewpoint policy improved viewing angle on the first move in 30/30 trials and recovered after occlusion.</li>
+            </ul>
+
+            <h4>Why it matters</h4>
+            <p class="todo">TODO: Add 1–2 concise sentences about inspection reliability, safety, or reducing unnecessary human inspection effort.</p>
+          </div>
+
+          <div class="media-placeholder">
+            <strong>Media placeholder</strong>
+            <span>Add an Isaac Sim scene, gauge-localization image, occupancy map, or short navigation demo.</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-topline">
+          <div>
+            <p class="project-kicker">Internship · Tencent America</p>
+            <h3>Knowhere Animatronic Robot</h3>
+          </div>
+          <p class="project-date">Jun 2026 – Sep 2026</p>
+        </div>
+
+        <div class="project-grid">
+          <div class="project-copy">
+            <h4>Problem / goal</h4>
+            <p>
+              Improve motion and expression generation for a 24-servo animatronic face while
+              simplifying the neck mechanism and maintaining safe, calibrated hardware motion.
+            </p>
+
+            <h4>My contribution</h4>
+            <ul>
+              <li>Integrated VLM-generated dialogue and expression keyframes with TTS and audio-driven lip sync.</li>
+              <li>Collected 3,000 motor-babbling samples and trained forward/inverse models for actuation.</li>
+              <li>Combined model-based optimization with direct interpolation in a hybrid controller for the silicone face.</li>
+              <li>Mapped MediaPipe-tracked expressions to the robot with per-user calibration, EMA smoothing, and grouped servo commands.</li>
+              <li>Redesigned a 6-DoF neck as a 3-DoF yaw–pitch–roll mechanism and implemented CAD-derived inverse kinematics.</li>
+              <li>Added calibrated servo mapping, actuator-limit checks, and motion-path validation before hardware commands.</li>
+            </ul>
+
+            <h4>Evidence / results</h4>
+            <ul>
+              <li>Reduced neck actuator count from six to three.</li>
+              <li>Created a learned/model-based actuation pipeline for a 24-servo face.</li>
+              <li>Compensated for audio startup latency to align speech and mouth motion.</li>
+            </ul>
+
+            <h4>Why it matters</h4>
+            <p class="todo">TODO: Add 1–2 sentences on the user-facing value of smoother, more synchronized robot interaction.</p>
+          </div>
+
+          <div class="media-placeholder">
+            <strong>Media placeholder</strong>
+            <span>Add a robot photo/video, neck CAD, linkage diagram, or actuation-model visualization.</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-topline">
+          <div>
+            <p class="project-kicker">Project · Carnegie Mellon University</p>
+            <h3>E-Ducati-On: Self-Balancing Motorcycle</h3>
+          </div>
+          <p class="project-date">Oct 2025 – Dec 2025</p>
+        </div>
+
+        <div class="project-grid">
+          <div class="project-copy">
+            <h4>Problem / goal</h4>
+            <p>
+              Stabilize motorcycle roll using IMU feedback and a BLDC-driven reaction wheel.
+            </p>
+
+            <h4>My contribution</h4>
+            <ul>
+              <li>Implemented PD control for roll stabilization using the reaction wheel.</li>
+              <li>Integrated an MPU-6050 IMU over I2C with an ESP8266 and the motor controller for 100 Hz closed-loop control.</li>
+              <li>Added velocity desaturation, static-friction compensation, and idle braking to manage actuator limitations.</li>
+            </ul>
+
+            <h4>Evidence / results</h4>
+            <ul>
+              <li>Demonstrated static balance and low-speed driving on hardware.</li>
+              <li>Recovered from 5–10° roll disturbances.</li>
+            </ul>
+
+            <h4>Why it matters</h4>
+            <p class="todo">TODO: Add one sentence about real-time feedback control under actuator saturation and friction.</p>
+          </div>
+
+          <div class="media-placeholder">
+            <strong>Media placeholder</strong>
+            <span>Add a hardware photo, control block diagram, balancing clip, or response plot.</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-topline">
+          <div>
+            <p class="project-kicker">Project · Carnegie Mellon University</p>
+            <h3>STAIR: Bio-Inspired Walking-to-Rolling Hybrid Quadruped</h3>
+          </div>
+          <p class="project-date">Jan 2026 – Apr 2026</p>
+        </div>
+
+        <div class="project-grid">
+          <div class="project-copy">
+            <h4>Problem / goal</h4>
+            <p>
+              Build an armadillo-inspired quadruped that transitions between walking and rolling
+              while coordinating embedded sensing and actuation.
+            </p>
+
+            <h4>My contribution</h4>
+            <ul>
+              <li>Fabricated and soldered a wiring harness integrating ESP32-S3, Pololu motor drivers, and four DC gearmotors with quadrature encoders.</li>
+              <li>Added voltage-divider signal conditioning to level-shift 5 V encoder outputs to 3.3 V ESP32 inputs.</li>
+              <li>Developed non-blocking C++ state-machine firmware for walk/retract/roll/deploy transitions.</li>
+              <li>Used IMU quaternion data for real-time pitch detection during mode transitions.</li>
+            </ul>
+
+            <h4>Evidence / results</h4>
+            <ul>
+              <li>Integrated embedded sensing, motor actuation, and transition logic on a physical robot platform.</li>
+              <li>Implemented real-time mode sequencing without blocking delays.</li>
+            </ul>
+
+            <h4>Why it matters</h4>
+            <p class="todo">TODO: Add one sentence about terrain adaptability or the value of hybrid locomotion.</p>
+          </div>
+
+          <div class="media-placeholder">
+            <strong>Media placeholder</strong>
+            <span>Add a robot photo, wiring diagram, firmware/state diagram, or gait-transition clip.</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="resume" class="section wrap">
+      <div class="section-heading">
+        <p class="eyebrow">Resume</p>
+        <h2>Professional one-page resume</h2>
+      </div>
+      <p>The latest one-page resume is included with the site.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="assets/Jiaming_Huang_Resume.pdf" target="_blank" rel="noopener">View PDF</a>
+        <a class="button secondary" href="assets/Jiaming_Huang_Resume.pdf" download>Download PDF</a>
+      </div>
+    </section>
+
+    <section id="contact" class="section wrap">
+      <div class="section-heading">
+        <p class="eyebrow">Contact</p>
+        <h2>Get in touch</h2>
+      </div>
+      <p class="contact-links">
+        <a href="mailto:jiaminghuang0333@gmail.com">jiaminghuang0333@gmail.com</a>
+        <a href="https://linkedin.com/in/jiaming-huang033" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/Jerry031902" target="_blank" rel="noopener">GitHub</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>Jiaming Huang</span>
+      <span>Robotics software · Controls · Embedded systems</span>
+    </div>
+  </footer>
+</body>
+</html>
