@@ -1,6 +1,4 @@
-# Jiaming Huang — Engineering Portfolio Starter (latest-resume version)
-
-This version is aligned to the latest resume uploaded in the chat.
+# Jiaming Huang — Engineering Portfolio Starter.
 
 ## Assignment checklist already represented
 
@@ -15,14 +13,14 @@ This version is aligned to the latest resume uploaded in the chat.
   - evidence / results
   - social or user value ("Why it matters")
 
-## Still intentionally left as placeholders
+## Still left as placeholders
 
 - Real project images/videos/plots
-- Final "Why it matters" sentences (the headings are present, but the content is intentionally blank for now)
-- Any additional project-specific detail not supported by the latest resume
-- Final design-justification memo (a separate required deliverable)
+- Final "Why it matters" sentences (the headings are present, but the content is blank for now)
+- Any additional project-specific detail
+- Final design-justification memo
 
 ## Publishing
 
-This folder is ready for a static host such as GitHub Pages.
-The final portfolio assignment describes the portfolio as a hosted website, so publish it and submit the public URL rather than a local HTML file.
+This folder is ready for host.
+The final portfolio assignment describes the portfolio as a hosted website, so I publish and submit the public URL rather than a local HTML file.
