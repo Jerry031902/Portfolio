@@ -21,61 +21,36 @@
   </header>
 
   <main id="top">
-    <section class="hero wrap">
-      <p class="eyebrow">Robotics Software · Controls · Embedded Systems</p>
-      <h1>Software for robots and dynamic physical systems.</h1>
-      <p class="lede">
-        I am an M.S. Mechanical Engineering – Research student at Carnegie Mellon University
-        working across controls, state estimation, robotics software, and hardware integration.
-        My projects span ROS 2 / Isaac Sim, embedded feedback control, inverse kinematics,
-        learned actuation models, and end-to-end robot system integration.
-      </p>
-      <div class="hero-actions">
-        <a class="button primary" href="#work">View projects</a>
-        <a class="button secondary" href="assets/Jiaming_Huang_Resume.pdf" target="_blank" rel="noopener">Open resume</a>
+    <section id="about" class="home-about wrap" aria-labelledby="about-title">
+      <p class="eyebrow">About Me</p>
+      <h1 id="about-title">Hi, I'm Jiaming.</h1>
+      <div class="home-about-copy">
+        <p>I'm currently a master's student in Mechanical Engineering at Carnegie Mellon University, focusing on robotics, controls, and software development for physical systems.</p>
+        <p>My experience spans autonomous robot simulation, embedded feedback control, and hardware-software integration. I've worked on projects ranging from a VLM-guided inspection robot to a self-balancing motorcycle and an animatronic robot.</p>
+        <p>I'm particularly interested in developing control, state-estimation, and robotics software that helps autonomous systems operate reliably in the real world.</p>
+      </div>
+      <div class="hero-actions" aria-label="Portfolio links">
+        <a class="button primary" href="#work">View Projects</a>
+        <a class="button secondary" href="assets/Jiaming_Huang_Resume.pdf" target="_blank" rel="noopener">Open Resume</a>
       </div>
     </section>
 
-    <section id="about" class="section wrap">
+    <section id="skills" class="section wrap skills-section" aria-labelledby="skills-title">
       <div class="section-heading">
-        <p class="eyebrow">About</p>
-        <h2>Engineering software close to the physical system</h2>
+        <h2 id="skills-title">Technical Skills</h2>
       </div>
-
-      <div class="about-grid">
-        <div>
-          <p>
-            I am most interested in engineering roles where software interacts directly with
-            sensing, dynamics, feedback, and actuation. That includes controls and state estimation,
-            as well as adjacent robotics systems, embedded controls, localization/navigation, and GNC-style work.
-          </p>
-          <p>
-            My mechanical engineering background helps me reason about the physical system,
-            while my software and robotics experience lets me carry those ideas into simulation,
-            onboard code, and real hardware.
-          </p>
-        </div>
-
-        <aside class="skills-card" aria-label="Skills at a glance">
-          <h3>Skills at a glance</h3>
-          <div class="chips">
-            <span>Python</span><span>C++ / C</span><span>MATLAB / Simulink</span>
-            <span>ROS 2</span><span>Isaac Sim</span><span>Docker</span>
-            <span>PD / PID control</span><span>Inverse kinematics</span><span>Servo calibration</span>
-            <span>IMU integration</span><span>ESP32 / ESP8266</span><span>Fusion 360</span>
-          </div>
-        </aside>
-      </div>
+      <dl class="skills-list">
+        <div class="skills-row"><dt>Programming</dt><dd>Python, C++, C, MATLAB / Simulink</dd></div>
+        <div class="skills-row"><dt>Robotics &amp; Tools</dt><dd>ROS 2, Isaac Sim, Linux, Docker, Git</dd></div>
+        <div class="skills-row"><dt>Controls</dt><dd>PD / PID feedback control, inverse kinematics, servo calibration</dd></div>
+        <div class="skills-row"><dt>Hardware</dt><dd>ESP32 / ESP8266, IMU integration, I²C / SPI / UART</dd></div>
+        <div class="skills-row"><dt>CAD</dt><dd>SolidWorks, Fusion 360</dd></div>
+      </dl>
     </section>
 
     <section id="work" class="section wrap">
       <div class="section-heading">
-        <p class="eyebrow">Selected work</p>
-        <h2>Projects & experiences</h2>
-        <p class="section-intro">
-          Each section highlights the engineering problem, my specific contribution,
-          evidence/results, and the value of the work.
-        </p>
+        <h2>Projects / Experience</h2>
       </div>
 
       <article class="project">
