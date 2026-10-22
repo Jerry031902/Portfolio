@@ -42,14 +42,14 @@
 <div aria-label="Project evaluation highlights" class="wrap case-results">
 <div class="case-result"><strong>10.5%</strong><p>Observed reduction in mean cost of transport for walk-to-roll vs. walking alone</p></div>
 <div class="case-result"><strong>8 trials</strong><p>5 walking trials and 3 walking-to-rolling trials on a 17° slope</p></div>
-<div class="case-result"><strong>p = 0.058</strong><p>Preliminary trend; difference did not meet the 0.05 significance threshold</p></div>
+<div class="case-result">p = 0.058<p>Preliminary trend; difference did not meet the 0.05 significance threshold</p></div>
 </div>
 <p class="wrap case-note">Team-level test result; the sample was small and the two test modes used different distances. My individual work centered on the control and modeling subsystems.</p><nav aria-label="On this project page" class="wrap case-toc"><span>On this page:</span><a href="#overview">Overview</a><a href="#design">My work</a><a href="#evaluation">Evaluation</a><a href="#takeaways">Takeaways</a></nav>
 <section class="wrap case-section" id="overview">
 <div class="case-section-label"><p class="eyebrow">Introduction</p><h2>The challenge</h2></div>
 <div class="case-content">
 <p>Legged robots spend energy continuously actuating their limbs, even when a downward slope could provide useful motion. STAIR explored whether an impulse-assisted switch from walking to passive rolling could lower the energy consumed per unit of distance traveled.</p>
-<p>The objective was to build a functioning walking-to-rolling robot and evaluate its <strong>cost of transport (CoT)</strong> against walking-only motion on a real incline. If successful, the approach could inform more energy-efficient mobility strategies for robots operating on sloped terrain.</p>
+<p>The objective was to build a functioning walking-to-rolling robot and evaluate its cost of transport (CoT) against walking-only motion on a real incline. If successful, the approach could inform more energy-efficient mobility strategies for robots operating on sloped terrain.</p>
 <div class="case-figure-grid">
 <figure class="case-figure">
 <a aria-label="Open full-sized image: Robot with hinged shell open for active walking." href="../assets/projects/stair/walking.webp" rel="noopener" target="_blank">
@@ -68,7 +68,7 @@
 <section class="wrap case-section" id="design">
 <div class="case-section-label"><p class="eyebrow">Design</p><h2>My contributions</h2></div>
 <div class="case-content">
-<p>My principal responsibility was the robot's <strong>programming and controls</strong>. I wrote the Arduino/C++ firmware running on an ESP32-S3 to coordinate leg movement, detect a slope, execute the walk-to-roll transition, and manage post-roll recovery states.</p>
+<p>My principal responsibility was the robot's programming and controls. I wrote the Arduino/C++ firmware running on an ESP32-S3 to coordinate leg movement, detect a slope, execute the walk-to-roll transition, and manage post-roll recovery states.</p>
 <div class="case-ownership">
 <strong>My work vs. team work</strong>
 <p>I owned the motion-control firmware and contributed MuJoCo/Simscape modeling, interface controls, and integration troubleshooting. Other teammates led the power electronics, structure, shell mechanism, fabrication, and experimental data processing.</p>
@@ -76,7 +76,7 @@
 <h3>1. Encoder-feedback walking gait</h3>
 <p>Each wheg has three spokes. I implemented a one-leg-at-a-time gait with per-motor encoder calibration and feedback: each commanded move advances a wheg through a calibrated two-step (240° nominal) cycle. Inactive legs are held in active brake, and timeouts protect against stalls or missing encoder signals.</p>
 <h3>2. IMU-triggered state transitions</h3>
-<p>Rather than abruptly switching modes mid-step, the controller waits for a valid gait boundary. If the estimated pitch exceeds <strong>12° for at least 150 ms</strong>, a transition is requested and executed at the next even-numbered move boundary.</p>
+<p>Rather than abruptly switching modes mid-step, the controller waits for a valid gait boundary. If the estimated pitch exceeds 12° for at least 150 ms, a transition is requested and executed at the next even-numbered move boundary.</p>
 <div class="case-process">
 <div class="case-step"><b>01 · Close shell</b><p>Command the servo-driven rack-and-pinion mechanism to release the shell into its rolling configuration.</p></div>
 <div class="case-step"><b>02 · Align rear legs</b><p>Move both rear whegs to a consistent kicking pose.</p></div>
@@ -90,7 +90,7 @@
 <figcaption><strong>Firmware state machine.</strong> Walking, transition, rolling, and recovery states. Click to inspect at full size.</figcaption>
 </figure>
 <h3>3. Simulation before hardware testing</h3>
-<p>I built a MuJoCo model to estimate the impulse and motor torque needed to flip the robot. I also extended a provided Simscape Multibody model: I parameterized the chassis/wheg geometry, separated front and rear motor behavior, and replaced open-loop torque commands with <strong>speed-feedback control and torque saturation</strong> to more closely represent the motor drivers.</p>
+<p>I built a MuJoCo model to estimate the impulse and motor torque needed to flip the robot. I also extended a provided Simscape Multibody model: I parameterized the chassis/wheg geometry, separated front and rear motor behavior, and replaced open-loop torque commands with speed-feedback control and torque saturation to more closely represent the motor drivers.</p>
 <h3>4. Operator-facing controls and integration</h3>
 <p>I implemented web-interface start/stop commands and an IMU pitch display, and helped debug and rewire electronics during integration. The team separately instrumented power consumption with INA260 sensors and collected test data through a CSV logging interface.</p>
 <figure class="case-figure">
@@ -104,7 +104,7 @@
 <section class="wrap case-section" id="evaluation">
 <div class="case-section-label"><p class="eyebrow">Evaluation</p><h2>What the tests showed</h2></div>
 <div class="case-content">
-<p>On a <strong>17° concrete slope</strong>, the team compared walking only with walking followed by rolling. Each trial logged electrical power from the front motors, rear motors, and servo/controller supply. Energy was integrated over time and normalized by robot weight and travel distance to compute CoT.</p>
+<p>On a 17° concrete slope, the team compared walking only with walking followed by rolling. Each trial logged electrical power from the front motors, rear motors, and servo/controller supply. Energy was integrated over time and normalized by robot weight and travel distance to compute CoT.</p>
 <table class="case-table">
 <thead><tr><th scope="col">Mode</th><th scope="col">Trials</th><th scope="col">Distance</th><th scope="col">Mean CoT</th></tr></thead>
 <tbody>
@@ -112,7 +112,7 @@
 <tr><th scope="row">Walk → roll</th><td>3</td><td>2.21 m</td><td>3.778</td></tr>
 </tbody>
 </table>
-<p>The hybrid mode showed a <strong>10.5% lower mean CoT</strong>. A one-sided Welch test gave <strong>p = 0.058</strong>, so the difference was <strong>not statistically significant at α = 0.05</strong>. The result suggests a promising trend, not a proven general improvement.</p>
+<p>The hybrid mode showed a 10.5% lower mean CoT. A one-sided Welch test gave p = 0.058, so the difference was not statistically significant at α = 0.05. The result suggests a promising trend, not a proven general improvement.</p>
 <figure class="case-figure">
 <a aria-label="Open full-sized image: Box-and-whisker chart comparing cost of transport for walking-only and walk-to-roll trials; walk-to-roll group generally lower." href="../assets/projects/stair/cot.webp" rel="noopener" target="_blank">
 <img alt="Box-and-whisker chart comparing cost of transport for walking-only and walk-to-roll trials; walk-to-roll group generally lower." decoding="async" loading="lazy" src="../assets/projects/stair/cot.webp"/>

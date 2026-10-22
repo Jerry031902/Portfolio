@@ -46,7 +46,7 @@
 <section class="wrap case-section" id="overview">
 <div class="case-section-label"><p class="eyebrow">Introduction</p><h2>The challenge</h2></div>
 <div class="case-content">
-<p>Two-wheeled motorcycles are unstable at rest, and passive stability from forward motion cannot be relied upon at very low speeds. We built E-Ducati-On as a <strong>low-cost, open and modifiable learning platform</strong> to expose the sensing, actuation, and feedback control required for lateral balance.</p>
+<p>Two-wheeled motorcycles are unstable at rest, and passive stability from forward motion cannot be relied upon at very low speeds. We built E-Ducati-On as a low-cost, open and modifiable learning platform to expose the sensing, actuation, and feedback control required for lateral balance.</p>
 <p>Our objective was to stabilize roll using a reaction wheel, then test whether the robot could remain upright while stationary or driving slowly. The broader value is a hands-on platform for teaching control systems that students can inspect, tune, and extend instead of treating as a closed black box.</p>
 <figure class="case-figure">
 <a aria-label="Open full-sized image: Close-up of revised physical motorcycle prototype with exposed electronics, drive motor, and reaction wheel mechanism." href="../assets/projects/ducati/hardware.webp" rel="noopener" target="_blank">
@@ -59,7 +59,7 @@
 <section class="wrap case-section" id="design">
 <div class="case-section-label"><p class="eyebrow">Design</p><h2>My contributions</h2></div>
 <div class="case-content">
-<p>I worked on the <strong>embedded feedback controller and hardware integration</strong>: reading inertial measurements, estimating roll motion, commanding corrective reaction-wheel actuation, and making the baseline controller usable under real motor constraints.</p>
+<p>I worked on the embedded feedback controller and hardware integration: reading inertial measurements, estimating roll motion, commanding corrective reaction-wheel actuation, and making the baseline controller usable under real motor constraints.</p>
 <div class="case-ownership"><strong>My work vs. team work</strong><p>I implemented the roll-control loop and its actuator compensation and integrated the MPU-6050, ESP8266, and motor controller. The chassis, motor selection, steering mechanism, and user-facing interface were developed as part of the team's broader mechanical and electrical system.</p></div>
 <h3>Feedback loop</h3>
 <div class="case-process">
@@ -94,7 +94,7 @@
 <section class="wrap case-section" id="evaluation">
 <div class="case-section-label"><p class="eyebrow">Evaluation</p><h2>What the tests showed</h2></div>
 <div class="case-content">
-<p>The team used MATLAB/Simulink for preliminary dynamics and controller studies, then evaluated the finished hardware with static balancing, low-speed driving, and small steering inputs. <strong>PID and LQR were compared in simulation, but the physical prototype used the augmented PD controller.</strong></p>
+<p>The team used MATLAB/Simulink for preliminary dynamics and controller studies, then evaluated the finished hardware with static balancing, low-speed driving, and small steering inputs. PID and LQR were compared in simulation, but the physical prototype used the augmented PD controller.</p>
 <ul>
 <li><strong>Static balance:</strong> the motorcycle remained upright for several seconds under moderate gains, then could drift and tip as actuator limits or disturbances accumulated.</li>
 <li><strong>Disturbance recovery:</strong> hardware demonstrations included recovery from approximately 5–10° roll perturbations (as recorded in my resume).</li>
