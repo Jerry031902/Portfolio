@@ -106,20 +106,6 @@ h1,h2,h3,h4,p { margin-top: 0; }
 .home-about-copy p:last-child { margin-bottom: 0; }
 .home-about .hero-actions { margin-top: 27px; }
 
-/* Simple categorized skills list; no pills or decorative cards. */
-.skills-section { padding-top: 41px; padding-bottom: 44px; }
-.skills-section .section-heading { margin-bottom: 18px; }
-.skills-list { margin: 0; max-width: 900px; }
-.skills-row {
-  display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
-  column-gap: 24px;
-  padding: 11px 0;
-  border-bottom: 1px solid #e7eaed;
-}
-.skills-row:first-child { border-top: 1px solid #e7eaed; }
-.skills-row dt { font-weight: 700; color: var(--text); }
-.skills-row dd { margin: 0; color: #45515c; }
 section[id] { scroll-margin-top: 86px; }
 
 .project { padding: 30px 0 42px; border-top: 1px solid var(--border); }
@@ -186,9 +172,6 @@ footer { border-top: 1px solid var(--border); background: white; }
   .home-about { padding: 42px 0 36px; }
   .home-about h1 { margin-bottom: 18px; }
   .home-about-copy { font-size: .99rem; }
-  .skills-row { grid-template-columns: 1fr; row-gap: 3px; padding: 9px 0; }
-  .skills-row dt { font-size: .93rem; }
-  .skills-row dd { font-size: .96rem; }
   .footer-inner { align-items: flex-start; flex-direction: column; justify-content: center; padding: 20px 0; }
 }
 
