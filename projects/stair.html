@@ -1,153 +1,148 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Embedded C++ control, state-machine design, physics simulation, and evaluation of a walking-to-rolling hybrid robot." />
-  <title>STAIR — Slope-Traversing Armadillo-Inspired Robot | Jiaming Huang</title>
-  <link rel="stylesheet" href="../styles.css" />
-  <link rel="stylesheet" href="../project-pages.css" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Embedded C++ control, state-machine design, physics simulation, and evaluation of a walking-to-rolling hybrid robot." name="description"/>
+<title>STAIR — Slope-Traversing Armadillo-Inspired Robot | Jiaming Huang</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="../project-pages.css" rel="stylesheet"/>
 </head>
-<body>
-  <header class="site-header">
-    <div class="wrap nav-wrap">
-      <a class="brand" href="../index.html#top">Jiaming Huang</a>
-      <nav aria-label="Primary navigation">
-        <a href="../index.html#about">About</a>
-        <a href="../index.html#work" aria-current="page">Projects</a>
-        <a href="../index.html#resume">Resume</a>
-        <a href="../index.html#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
-  <main class="case-main">
-    <div class="wrap case-breadcrumb"><a href="../index.html#work">← All projects</a></div>
-
-    <section class="wrap case-hero" aria-labelledby="stair-title">
-      <div>
-        <p class="eyebrow">Embedded robotics · Motion control · Carnegie Mellon University</p>
-        <h1 id="stair-title">STAIR: Slope-Traversing Armadillo-Inspired Robot</h1>
-        <p class="case-subtitle">An armadillo-inspired robot that uses a brief leg impulse to transition from active walking to passive, gravity-driven rolling down a slope.</p>
-        <p><strong>My focus:</strong> embedded C++ control, encoder-feedback walking, IMU-triggered mode transitions, recovery logic, and physics simulation.</p>
-        <div class="case-skills" aria-label="Relevant skills">
-          <span>Arduino / C++</span><span>ESP32-S3</span><span>Finite-state machines</span><span>Encoder feedback</span><span>IMU</span><span>MuJoCo</span><span>Simscape Multibody</span>
-        </div>
-        <div class="case-meta"><span>Jan – Apr 2026</span><span>Five-person team</span><span>Course project</span></div>
-      </div>
-      <figure class="case-hero-image">
-        <img src="../assets/projects/stair/walking.webp" alt="STAIR physical prototype standing in walking configuration, with red and white hinged shell halves open and wheg feet on the surface" />
-        <figcaption>STAIR in walking configuration. Photo from the team's final project report.</figcaption>
-      </figure>
-    </section>
-    <div class="wrap case-results" aria-label="Project evaluation highlights">
-      <div class="case-result"><strong>10.5%</strong><p>Observed reduction in mean cost of transport for walk-to-roll vs. walking alone</p></div>
-      <div class="case-result"><strong>8 trials</strong><p>5 walking trials and 3 walking-to-rolling trials on a 17° slope</p></div>
-      <div class="case-result"><strong>p = 0.058</strong><p>Preliminary trend; difference did not meet the 0.05 significance threshold</p></div>
-    </div>
-    <p class="wrap case-note">Team-level test result; the sample was small and the two test modes used different distances. My individual work centered on the control and modeling subsystems.</p>
-
-    <section class="wrap case-section" id="overview">
-      <div class="case-section-label"><p class="eyebrow">01 / Introduction</p><h2>The challenge</h2></div>
-      <div class="case-content">
-        <p>Legged robots spend energy continuously actuating their limbs, even when a downward slope could provide useful motion. STAIR explored whether an impulse-assisted switch from walking to passive rolling could lower the energy consumed per unit of distance traveled.</p>
-        <p>The objective was to build a functioning walking-to-rolling robot and evaluate its <strong>cost of transport (CoT)</strong> against walking-only motion on a real incline. If successful, the approach could inform more energy-efficient mobility strategies for robots operating on sloped terrain.</p>
-        <div class="case-figure-grid">
-<figure class="case-figure ">
-      <a href="../assets/projects/stair/walking.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Robot with hinged shell open for active walking.">
-        <img src="../assets/projects/stair/walking.webp" alt="Robot with hinged shell open for active walking." loading="lazy" decoding="async" />
-      </a>
-      <figcaption><strong>Walking mode:</strong> shell open, whegs support gait.</figcaption>
-    </figure><figure class="case-figure ">
-      <a href="../assets/projects/stair/rolling.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Robot with hinged shell closed in rounded rolling configuration.">
-        <img src="../assets/projects/stair/rolling.webp" alt="Robot with hinged shell closed in rounded rolling configuration." loading="lazy" decoding="async" />
-      </a>
-      <figcaption><strong>Rolling mode:</strong> shell closed for passive downhill travel.</figcaption>
-    </figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="wrap case-section" id="design">
-      <div class="case-section-label"><p class="eyebrow">02 / Design</p><h2>My contributions</h2></div>
-      <div class="case-content">
-        <p>My principal responsibility was the robot's <strong>programming and controls</strong>. I wrote the Arduino/C++ firmware running on an ESP32-S3 to coordinate leg movement, detect a slope, execute the walk-to-roll transition, and manage post-roll recovery states.</p>
-        <div class="case-ownership">
-          <strong>My work vs. team work</strong>
-          <p>I owned the motion-control firmware and contributed MuJoCo/Simscape modeling, interface controls, and integration troubleshooting. Other teammates led the power electronics, structure, shell mechanism, fabrication, and experimental data processing.</p>
-        </div>
-        <h3>1. Encoder-feedback walking gait</h3>
-        <p>Each wheg has three spokes. I implemented a one-leg-at-a-time gait with per-motor encoder calibration and feedback: each commanded move advances a wheg through a calibrated two-step (240° nominal) cycle. Inactive legs are held in active brake, and timeouts protect against stalls or missing encoder signals.</p>
-        <h3>2. IMU-triggered state transitions</h3>
-        <p>Rather than abruptly switching modes mid-step, the controller waits for a valid gait boundary. If the estimated pitch exceeds <strong>12° for at least 150 ms</strong>, a transition is requested and executed at the next even-numbered move boundary.</p>
-        <div class="case-process">
-          <div class="case-step"><b>01 · Close shell</b><p>Command the servo-driven rack-and-pinion mechanism to release the shell into its rolling configuration.</p></div>
-          <div class="case-step"><b>02 · Align rear legs</b><p>Move both rear whegs to a consistent kicking pose.</p></div>
-          <div class="case-step"><b>03 · Apply impulse</b><p>Run a controlled three-phase rear-leg motor pulse to generate the forward tipping impulse.</p></div>
-          <div class="case-step"><b>04 · Align and recover</b><p>Align front legs for rolling; after stopping, the implemented recovery routine reopens the shell and rephases the legs.</p></div>
-        </div>
+<body class="case-study">
+<header class="site-header">
+<div class="wrap nav-wrap">
+<a class="brand" href="../index.html#top">Jiaming Huang</a>
+<nav aria-label="Primary navigation">
+<a href="../index.html#about">About</a>
+<a aria-current="page" href="../index.html#work">Projects</a>
+<a href="../index.html#resume">Resume</a>
+<a href="../index.html#contact">Contact</a>
+</nav>
+</div>
+</header>
+<main class="case-main">
+<div class="wrap case-breadcrumb"><a href="../index.html#work">← All projects</a></div>
+<section aria-labelledby="stair-title" class="wrap case-hero">
+<div>
+<p class="eyebrow">Embedded robotics · Motion control · Carnegie Mellon University</p>
+<h1 id="stair-title">STAIR: Slope-Traversing Armadillo-Inspired Robot</h1>
+<p class="case-subtitle">An armadillo-inspired robot that uses a brief leg impulse to transition from active walking to passive, gravity-driven rolling down a slope.</p>
+<p><strong>My focus:</strong> embedded C++ control, encoder-feedback walking, IMU-triggered mode transitions, recovery logic, and physics simulation.</p>
+<div aria-label="Relevant skills" class="case-skills">
+<span>Arduino / C++</span><span>ESP32-S3</span><span>Finite-state machines</span><span>Encoder feedback</span><span>IMU</span><span>MuJoCo</span><span>Simscape Multibody</span>
+</div>
+<div class="case-meta"><span>Jan – Apr 2026</span><span>Five-person team</span><span>Course project</span></div>
+</div>
+<figure class="case-hero-image">
+<img alt="STAIR physical prototype standing in walking configuration, with red and white hinged shell halves open and wheg feet on the surface" src="../assets/projects/stair/walking.webp"/>
+<figcaption>STAIR in walking configuration. Photo from the team's final project report.</figcaption>
+</figure>
+</section>
+<div aria-label="Project evaluation highlights" class="wrap case-results">
+<div class="case-result"><strong>10.5%</strong><p>Observed reduction in mean cost of transport for walk-to-roll vs. walking alone</p></div>
+<div class="case-result"><strong>8 trials</strong><p>5 walking trials and 3 walking-to-rolling trials on a 17° slope</p></div>
+<div class="case-result"><strong>p = 0.058</strong><p>Preliminary trend; difference did not meet the 0.05 significance threshold</p></div>
+</div>
+<p class="wrap case-note">Team-level test result; the sample was small and the two test modes used different distances. My individual work centered on the control and modeling subsystems.</p><nav aria-label="On this project page" class="wrap case-toc"><span>On this page:</span><a href="#overview">Overview</a><a href="#design">My work</a><a href="#evaluation">Evaluation</a><a href="#takeaways">Takeaways</a></nav>
+<section class="wrap case-section" id="overview">
+<div class="case-section-label"><p class="eyebrow">Introduction</p><h2>The challenge</h2></div>
+<div class="case-content">
+<p>Legged robots spend energy continuously actuating their limbs, even when a downward slope could provide useful motion. STAIR explored whether an impulse-assisted switch from walking to passive rolling could lower the energy consumed per unit of distance traveled.</p>
+<p>The objective was to build a functioning walking-to-rolling robot and evaluate its <strong>cost of transport (CoT)</strong> against walking-only motion on a real incline. If successful, the approach could inform more energy-efficient mobility strategies for robots operating on sloped terrain.</p>
+<div class="case-figure-grid">
+<figure class="case-figure">
+<a aria-label="Open full-sized image: Robot with hinged shell open for active walking." href="../assets/projects/stair/walking.webp" rel="noopener" target="_blank">
+<img alt="Robot with hinged shell open for active walking." decoding="async" loading="lazy" src="../assets/projects/stair/walking.webp"/>
+</a>
+<figcaption><strong>Walking mode:</strong> shell open, whegs support gait.</figcaption>
+</figure><figure class="case-figure">
+<a aria-label="Open full-sized image: Robot with hinged shell closed in rounded rolling configuration." href="../assets/projects/stair/rolling.webp" rel="noopener" target="_blank">
+<img alt="Robot with hinged shell closed in rounded rolling configuration." decoding="async" loading="lazy" src="../assets/projects/stair/rolling.webp"/>
+</a>
+<figcaption><strong>Rolling mode:</strong> shell closed for passive downhill travel.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section class="wrap case-section" id="design">
+<div class="case-section-label"><p class="eyebrow">Design</p><h2>My contributions</h2></div>
+<div class="case-content">
+<p>My principal responsibility was the robot's <strong>programming and controls</strong>. I wrote the Arduino/C++ firmware running on an ESP32-S3 to coordinate leg movement, detect a slope, execute the walk-to-roll transition, and manage post-roll recovery states.</p>
+<div class="case-ownership">
+<strong>My work vs. team work</strong>
+<p>I owned the motion-control firmware and contributed MuJoCo/Simscape modeling, interface controls, and integration troubleshooting. Other teammates led the power electronics, structure, shell mechanism, fabrication, and experimental data processing.</p>
+</div>
+<h3>1. Encoder-feedback walking gait</h3>
+<p>Each wheg has three spokes. I implemented a one-leg-at-a-time gait with per-motor encoder calibration and feedback: each commanded move advances a wheg through a calibrated two-step (240° nominal) cycle. Inactive legs are held in active brake, and timeouts protect against stalls or missing encoder signals.</p>
+<h3>2. IMU-triggered state transitions</h3>
+<p>Rather than abruptly switching modes mid-step, the controller waits for a valid gait boundary. If the estimated pitch exceeds <strong>12° for at least 150 ms</strong>, a transition is requested and executed at the next even-numbered move boundary.</p>
+<div class="case-process">
+<div class="case-step"><b>01 · Close shell</b><p>Command the servo-driven rack-and-pinion mechanism to release the shell into its rolling configuration.</p></div>
+<div class="case-step"><b>02 · Align rear legs</b><p>Move both rear whegs to a consistent kicking pose.</p></div>
+<div class="case-step"><b>03 · Apply impulse</b><p>Run a controlled three-phase rear-leg motor pulse to generate the forward tipping impulse.</p></div>
+<div class="case-step"><b>04 · Align and recover</b><p>Align front legs for rolling; after stopping, the implemented recovery routine reopens the shell and rephases the legs.</p></div>
+</div>
 <figure class="case-figure case-wide-figure">
-      <a href="../assets/projects/stair/fsm.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Finite-state-machine flowchart for the STAIR gait and walk-to-roll transition, with color coded walking, transition and rolling stages.">
-        <img src="../assets/projects/stair/fsm.webp" alt="Finite-state-machine flowchart for the STAIR gait and walk-to-roll transition, with color coded walking, transition and rolling stages." loading="lazy" decoding="async" />
-      </a>
-      <figcaption><strong>Firmware state machine.</strong> Walking, transition, rolling, and recovery states. Click to inspect at full size.</figcaption>
-    </figure>
-        <h3>3. Simulation before hardware testing</h3>
-        <p>I built a MuJoCo model to estimate the impulse and motor torque needed to flip the robot. I also extended a provided Simscape Multibody model: I parameterized the chassis/wheg geometry, separated front and rear motor behavior, and replaced open-loop torque commands with <strong>speed-feedback control and torque saturation</strong> to more closely represent the motor drivers.</p>
-        <h3>4. Operator-facing controls and integration</h3>
-        <p>I implemented web-interface start/stop commands and an IMU pitch display, and helped debug and rewire electronics during integration. The team separately instrumented power consumption with INA260 sensors and collected test data through a CSV logging interface.</p>
-<figure class="case-figure ">
-      <a href="../assets/projects/stair/control-ui.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Screenshot of STAIR browser-based control and data logging dashboard with START and STOP buttons.">
-        <img src="../assets/projects/stair/control-ui.webp" alt="Screenshot of STAIR browser-based control and data logging dashboard with START and STOP buttons." loading="lazy" decoding="async" />
-      </a>
-      <figcaption><strong>Robot interface.</strong> Team interface showing controls, current state, pitch, and data recording. I implemented the start/stop and pitch-display elements.</figcaption>
-    </figure>
-      </div>
-    </section>
-
-    <section class="wrap case-section" id="evaluation">
-      <div class="case-section-label"><p class="eyebrow">03 / Evaluation</p><h2>What the tests showed</h2></div>
-      <div class="case-content">
-        <p>On a <strong>17° concrete slope</strong>, the team compared walking only with walking followed by rolling. Each trial logged electrical power from the front motors, rear motors, and servo/controller supply. Energy was integrated over time and normalized by robot weight and travel distance to compute CoT.</p>
-        <table class="case-table">
-          <thead><tr><th scope="col">Mode</th><th scope="col">Trials</th><th scope="col">Distance</th><th scope="col">Mean CoT</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Walk only</th><td>5</td><td>2.54 m</td><td>4.219</td></tr>
-            <tr><th scope="row">Walk → roll</th><td>3</td><td>2.21 m</td><td>3.778</td></tr>
-          </tbody>
-        </table>
-        <p>The hybrid mode showed a <strong>10.5% lower mean CoT</strong>. A one-sided Welch test gave <strong>p = 0.058</strong>, so the difference was <strong>not statistically significant at α = 0.05</strong>. The result suggests a promising trend, not a proven general improvement.</p>
-<figure class="case-figure ">
-      <a href="../assets/projects/stair/cot.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Box-and-whisker chart comparing cost of transport for walking-only and walk-to-roll trials; walk-to-roll group generally lower.">
-        <img src="../assets/projects/stair/cot.webp" alt="Box-and-whisker chart comparing cost of transport for walking-only and walk-to-roll trials; walk-to-roll group generally lower." loading="lazy" decoding="async" />
-      </a>
-      <figcaption><strong>Distance-normalized energy efficiency.</strong> Cost-of-transport distribution from five walk trials and three walk-to-roll trials (team report, Fig. 9).</figcaption>
-    </figure><figure class="case-figure ">
-      <a href="../assets/projects/stair/energy.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Line graph of average accumulated electrical energy versus time, comparing walking-only and walking-to-rolling modes.">
-        <img src="../assets/projects/stair/energy.webp" alt="Line graph of average accumulated electrical energy versus time, comparing walking-only and walking-to-rolling modes." loading="lazy" decoding="async" />
-      </a>
-      <figcaption><strong>Energy over time.</strong> The hybrid trial has an impulse-related increase before a flatter passive-rolling phase (team report, Fig. 10). Distances differ, so this graph should not replace CoT for a fair comparison.</figcaption>
-    </figure>
-        <div class="case-caution">
-          <strong>Limitations</strong>
-          <p>Weak shell magnets limited rolling distance, and shell damage ended testing early. Only three walk-to-roll trials were completed; the post-roll recovery logic was implemented but not fully tested end-to-end. Additional trials over matched distances and more slopes would be needed to validate the efficiency benefit.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="wrap case-section" id="takeaways">
-      <div class="case-section-label"><p class="eyebrow">04 / Conclusion</p><h2>Engineering takeaway</h2></div>
-      <div class="case-content">
-        <p>STAIR connected simulation, low-level feedback control, sensor-driven sequencing, and experiments on a real robot. For me, the key engineering lesson was that reliable motion involves more than selecting an algorithm: motor limits, gait phase, sensor quality, and mechanical reliability must all be handled explicitly in the control software.</p>
-        <p><strong>Next improvements:</strong> reinforce shell closure, verify recovery after rolling, and collect more trials across multiple slopes to test whether the observed CoT reduction holds.</p>
-        <p class="case-source-note">Figures and aggregate evaluation results adapted from the five-person STAIR final project report. Individual contribution details are based on its “Jiaming — Programming and Controls” appendix. Project results are presented as team outcomes unless otherwise noted.</p>
-      </div>
-    </section>
-
-    <div class="wrap case-end">
-      <a href="../index.html#work">← Back to all projects</a>
-      <a href="e-ducati-on.html">Next: E-Ducati-On →</a>
-    </div>
-  </main>
-  <footer><div class="wrap footer-inner"><span>Jiaming Huang</span><span>Robotics software · Controls · Embedded systems</span></div></footer>
+<a aria-label="Open full-sized image: Finite-state-machine flowchart for the STAIR gait and walk-to-roll transition, with color coded walking, transition and rolling stages." href="../assets/projects/stair/fsm.webp" rel="noopener" target="_blank">
+<img alt="Finite-state-machine flowchart for the STAIR gait and walk-to-roll transition, with color coded walking, transition and rolling stages." decoding="async" loading="lazy" src="../assets/projects/stair/fsm.webp"/>
+</a>
+<figcaption><strong>Firmware state machine.</strong> Walking, transition, rolling, and recovery states. Click to inspect at full size.</figcaption>
+</figure>
+<h3>3. Simulation before hardware testing</h3>
+<p>I built a MuJoCo model to estimate the impulse and motor torque needed to flip the robot. I also extended a provided Simscape Multibody model: I parameterized the chassis/wheg geometry, separated front and rear motor behavior, and replaced open-loop torque commands with <strong>speed-feedback control and torque saturation</strong> to more closely represent the motor drivers.</p>
+<h3>4. Operator-facing controls and integration</h3>
+<p>I implemented web-interface start/stop commands and an IMU pitch display, and helped debug and rewire electronics during integration. The team separately instrumented power consumption with INA260 sensors and collected test data through a CSV logging interface.</p>
+<figure class="case-figure">
+<a aria-label="Open full-sized image: Screenshot of STAIR browser-based control and data logging dashboard with START and STOP buttons." href="../assets/projects/stair/control-ui.webp" rel="noopener" target="_blank">
+<img alt="Screenshot of STAIR browser-based control and data logging dashboard with START and STOP buttons." decoding="async" loading="lazy" src="../assets/projects/stair/control-ui.webp"/>
+</a>
+<figcaption><strong>Robot interface.</strong> Team interface showing controls, current state, pitch, and data recording. I implemented the start/stop and pitch-display elements.</figcaption>
+</figure>
+</div>
+</section>
+<section class="wrap case-section" id="evaluation">
+<div class="case-section-label"><p class="eyebrow">Evaluation</p><h2>What the tests showed</h2></div>
+<div class="case-content">
+<p>On a <strong>17° concrete slope</strong>, the team compared walking only with walking followed by rolling. Each trial logged electrical power from the front motors, rear motors, and servo/controller supply. Energy was integrated over time and normalized by robot weight and travel distance to compute CoT.</p>
+<table class="case-table">
+<thead><tr><th scope="col">Mode</th><th scope="col">Trials</th><th scope="col">Distance</th><th scope="col">Mean CoT</th></tr></thead>
+<tbody>
+<tr><th scope="row">Walk only</th><td>5</td><td>2.54 m</td><td>4.219</td></tr>
+<tr><th scope="row">Walk → roll</th><td>3</td><td>2.21 m</td><td>3.778</td></tr>
+</tbody>
+</table>
+<p>The hybrid mode showed a <strong>10.5% lower mean CoT</strong>. A one-sided Welch test gave <strong>p = 0.058</strong>, so the difference was <strong>not statistically significant at α = 0.05</strong>. The result suggests a promising trend, not a proven general improvement.</p>
+<figure class="case-figure">
+<a aria-label="Open full-sized image: Box-and-whisker chart comparing cost of transport for walking-only and walk-to-roll trials; walk-to-roll group generally lower." href="../assets/projects/stair/cot.webp" rel="noopener" target="_blank">
+<img alt="Box-and-whisker chart comparing cost of transport for walking-only and walk-to-roll trials; walk-to-roll group generally lower." decoding="async" loading="lazy" src="../assets/projects/stair/cot.webp"/>
+</a>
+<figcaption><strong>Distance-normalized energy efficiency.</strong> Cost-of-transport distribution from five walk trials and three walk-to-roll trials (team report, Fig. 9).</figcaption>
+</figure><figure class="case-figure">
+<a aria-label="Open full-sized image: Line graph of average accumulated electrical energy versus time, comparing walking-only and walking-to-rolling modes." href="../assets/projects/stair/energy.webp" rel="noopener" target="_blank">
+<img alt="Line graph of average accumulated electrical energy versus time, comparing walking-only and walking-to-rolling modes." decoding="async" loading="lazy" src="../assets/projects/stair/energy.webp"/>
+</a>
+<figcaption><strong>Energy over time.</strong> The hybrid trial has an impulse-related increase before a flatter passive-rolling phase (team report, Fig. 10). Distances differ, so this graph should not replace CoT for a fair comparison.</figcaption>
+</figure>
+<div class="case-caution">
+<strong>Limitations</strong>
+<p>Weak shell magnets limited rolling distance, and shell damage ended testing early. Only three walk-to-roll trials were completed; the post-roll recovery logic was implemented but not fully tested end-to-end. Additional trials over matched distances and more slopes would be needed to validate the efficiency benefit.</p>
+</div>
+</div>
+</section>
+<section class="wrap case-section" id="takeaways">
+<div class="case-section-label"><p class="eyebrow">Conclusion</p><h2>Engineering takeaway</h2></div>
+<div class="case-content">
+<p>STAIR connected simulation, low-level feedback control, sensor-driven sequencing, and experiments on a real robot. For me, the key engineering lesson was that reliable motion involves more than selecting an algorithm: motor limits, gait phase, sensor quality, and mechanical reliability must all be handled explicitly in the control software.</p>
+<p><strong>Next improvements:</strong> reinforce shell closure, verify recovery after rolling, and collect more trials across multiple slopes to test whether the observed CoT reduction holds.</p>
+<p class="case-source-note">Figures and aggregate evaluation results adapted from the five-person STAIR final project report. Individual contribution details are based on its “Jiaming — Programming and Controls” appendix. Project results are presented as team outcomes unless otherwise noted.</p>
+</div>
+</section>
+<div class="wrap case-end">
+<a href="../index.html#work">← Back to all projects</a>
+<a href="e-ducati-on.html">Next: E-Ducati-On →</a>
+</div>
+</main>
+<footer><div class="wrap footer-inner"><span>Jiaming Huang</span><span>Robotics software · Controls · Embedded systems</span></div></footer>
 </body>
 </html>
