@@ -166,85 +166,37 @@
         </div>
       </article>
 
-      <article class="project">
+      <article class="project project-preview" aria-labelledby="ducati-preview-title">
         <div class="project-topline">
-          <div>
-            <p class="project-kicker">Project · Carnegie Mellon University</p>
-            <h3>E-Ducati-On: Self-Balancing Motorcycle</h3>
-          </div>
-          <p class="project-date">Oct 2025 – Dec 2025</p>
+          <div><p class="project-kicker">Feedback control · Embedded robotics · Carnegie Mellon University</p><h3 id="ducati-preview-title">E-Ducati-On: Self-Balancing Motorcycle</h3></div>
+          <p class="project-date">Oct – Dec 2025</p>
         </div>
-
         <div class="project-grid">
           <div class="project-copy">
-            <h4>Problem / goal</h4>
-            <p>
-              Stabilize motorcycle roll using IMU feedback and a BLDC-driven reaction wheel.
-            </p>
-
-            <h4>My contribution</h4>
-            <ul>
-              <li>Implemented PD control for roll stabilization using the reaction wheel.</li>
-              <li>Integrated an MPU-6050 IMU over I2C with an ESP8266 and the motor controller for 100 Hz closed-loop control.</li>
-              <li>Added velocity desaturation, static-friction compensation, and idle braking to manage actuator limitations.</li>
-            </ul>
-
-            <h4>Evidence / results</h4>
-            <ul>
-              <li>Demonstrated static balance and low-speed driving on hardware.</li>
-              <li>Recovered from 5–10° roll disturbances.</li>
-            </ul>
-
-            <h4>Why it matters</h4>
-            <p class="placeholder-empty" aria-hidden="true"></p>
+            <p>I implemented IMU-driven PD roll stabilization on an ESP8266, integrating a <strong>100 Hz feedback loop</strong> with velocity desaturation, static-friction compensation, and idle braking.</p>
+            <p><strong>Hardware evaluation:</strong> stationary and low-speed balancing, including reported recovery from 5–10° roll disturbances. Testing also revealed motor saturation and sensing limitations.</p>
+            <p><a class="project-read-link" href="projects/e-ducati-on.html">Read the E-Ducati-On case study →</a></p>
           </div>
-
-          <div class="media-placeholder">
-            <strong>Media placeholder</strong>
-            <span>Add a hardware photo, control block diagram, balancing clip, or response plot.</span>
-          </div>
+          <a class="project-thumbnail" href="projects/e-ducati-on.html" aria-label="Read E-Ducati-On project page">
+            <img src="assets/projects/ducati/prototype.webp" alt="Completed E-Ducati-On reaction-wheel motorcycle prototype" loading="lazy" />
+          </a>
         </div>
       </article>
 
-      <article class="project">
+      <article class="project project-preview" aria-labelledby="stair-preview-title">
         <div class="project-topline">
-          <div>
-            <p class="project-kicker">Project · Carnegie Mellon University</p>
-            <h3>STAIR: Bio-Inspired Walking-to-Rolling Hybrid Quadruped</h3>
-          </div>
-          <p class="project-date">Jan 2026 – Apr 2026</p>
+          <div><p class="project-kicker">Embedded C++ · State machines · Carnegie Mellon University</p><h3 id="stair-preview-title">STAIR: Slope-Traversing Armadillo-Inspired Robot</h3></div>
+          <p class="project-date">Jan – Apr 2026</p>
         </div>
-
         <div class="project-grid">
           <div class="project-copy">
-            <h4>Problem / goal</h4>
-            <p>
-              Build an armadillo-inspired quadruped that transitions between walking and rolling
-              while coordinating embedded sensing and actuation.
-            </p>
-
-            <h4>My contribution</h4>
-            <ul>
-              <li>Fabricated and soldered a wiring harness integrating ESP32-S3, Pololu motor drivers, and four DC gearmotors with quadrature encoders.</li>
-              <li>Added voltage-divider signal conditioning to level-shift 5 V encoder outputs to 3.3 V ESP32 inputs.</li>
-              <li>Developed non-blocking C++ state-machine firmware for walk/retract/roll/deploy transitions.</li>
-              <li>Used IMU quaternion data for real-time pitch detection during mode transitions.</li>
-            </ul>
-
-            <h4>Evidence / results</h4>
-            <ul>
-              <li>Integrated embedded sensing, motor actuation, and transition logic on a physical robot platform.</li>
-              <li>Implemented real-time mode sequencing without blocking delays.</li>
-            </ul>
-
-            <h4>Why it matters</h4>
-            <p class="placeholder-empty" aria-hidden="true"></p>
+            <p>I developed the ESP32-S3 <strong>closed-loop walking gait</strong>, IMU-triggered transition sequence, recovery state machine, and physics simulations in MuJoCo and Simscape Multibody.</p>
+            <p><strong>Team evaluation:</strong> a preliminary 10.5% reduction in mean cost of transport with walking-to-rolling locomotion; the small-sample comparison did not reach statistical significance (p = 0.058).</p>
+            <p><a class="project-read-link" href="projects/stair.html">Read the STAIR case study →</a></p>
           </div>
-
-          <div class="media-placeholder">
-            <strong>Media placeholder</strong>
-            <span>Add a robot photo, wiring diagram, firmware/state diagram, or gait-transition clip.</span>
-          </div>
+          <a class="project-thumbnail" href="projects/stair.html" aria-label="Read STAIR project page">
+            <img src="assets/projects/stair/walking.webp" alt="STAIR robot with shell open in walking configuration" loading="lazy" />
+          </a>
         </div>
       </article>
     </section>

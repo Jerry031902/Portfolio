@@ -179,3 +179,11 @@ footer { border-top: 1px solid var(--border); background: white; }
   min-height: 0.8rem;
   margin: 0;
 }
+
+/* Homepage previews for finished case studies. */
+.project-preview .project-copy > p { max-width:700px; }
+.project-preview .project-grid { align-items:center; }
+.project-read-link { text-decoration:none; font-weight:700; }
+.project-read-link:hover,.project-read-link:focus { text-decoration:underline; }
+.project-thumbnail { display:block; }
+.project-thumbnail img { display:block; width:100%; aspect-ratio:5/3; object-fit:cover; background:white; border:1px solid var(--border); border-radius:10px; }

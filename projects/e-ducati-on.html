@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="IMU-based feedback stabilization and actuator-compensation control of an educational reaction-wheel motorcycle." />
+  <title>E-Ducati-On — Self-Balancing Motorcycle | Jiaming Huang</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../project-pages.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <a class="brand" href="../index.html#top">Jiaming Huang</a>
+      <nav aria-label="Primary navigation">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#work" aria-current="page">Projects</a>
+        <a href="../index.html#resume">Resume</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="case-main">
+    <div class="wrap case-breadcrumb"><a href="../index.html#work">← All projects</a></div>
+
+    <section class="wrap case-hero" aria-labelledby="ducati-title">
+      <div>
+        <p class="eyebrow">Feedback control · Embedded systems · Carnegie Mellon University</p>
+        <h1 id="ducati-title">E-Ducati-On: Self-balancing motorcycle</h1>
+        <p class="case-subtitle">A modifiable two-wheeled teaching platform that balances in roll using IMU feedback and an actively driven reaction wheel.</p>
+        <p><strong>My focus:</strong> the embedded PD stabilizer, 100 Hz IMU/control integration, and practical compensation for motor friction and reaction-wheel saturation.</p>
+        <div class="case-skills" aria-label="Relevant skills"><span>PD control</span><span>ESP8266</span><span>100 Hz loop</span><span>MPU-6050 / I²C</span><span>Motor control</span><span>Actuator saturation</span><span>MATLAB / Simulink</span></div>
+        <div class="case-meta"><span>Oct – Dec 2025</span><span>Four-person team</span><span>Course project</span></div>
+      </div>
+      <figure class="case-hero-image">
+        <img src="../assets/projects/ducati/prototype.webp" alt="Side view of completed E-Ducati-On motorcycle prototype with rear drive wheel, reaction-wheel assembly, and front steering fork" />
+        <figcaption>Completed reaction-wheel motorcycle prototype. Team report, Fig. 1.</figcaption>
+      </figure>
+    </section>
+    <div class="wrap case-results" aria-label="Project highlights">
+      <div class="case-result"><strong>100 Hz</strong><p>Onboard inertial sensing and roll-control update rate</p></div>
+      <div class="case-result"><strong>5–10°</strong><p>Reported roll-disturbance recovery demonstrated on hardware</p></div>
+      <div class="case-result"><strong>Real hardware</strong><p>Static balancing and low-speed driving demonstrated</p></div>
+    </div>
+    <p class="wrap case-note">Balance remained limited by actuator torque, wheel saturation, and noise; the prototype did not achieve sustained unlimited balancing or high-speed maneuvers.</p>
+
+    <section class="wrap case-section" id="overview">
+      <div class="case-section-label"><p class="eyebrow">01 / Introduction</p><h2>The challenge</h2></div>
+      <div class="case-content">
+        <p>Two-wheeled motorcycles are unstable at rest, and passive stability from forward motion cannot be relied upon at very low speeds. We built E-Ducati-On as a <strong>low-cost, open and modifiable learning platform</strong> to expose the sensing, actuation, and feedback control required for lateral balance.</p>
+        <p>Our objective was to stabilize roll using a reaction wheel, then test whether the robot could remain upright while stationary or driving slowly. The broader value is a hands-on platform for teaching control systems that students can inspect, tune, and extend instead of treating as a closed black box.</p>
+<figure class="case-figure ">
+      <a href="../assets/projects/ducati/hardware.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Close-up of revised physical motorcycle prototype with exposed electronics, drive motor, and reaction wheel mechanism.">
+        <img src="../assets/projects/ducati/hardware.webp" alt="Close-up of revised physical motorcycle prototype with exposed electronics, drive motor, and reaction wheel mechanism." loading="lazy" decoding="async" />
+      </a>
+      <figcaption><strong>Physical implementation.</strong> The revised frame, control electronics and flywheel drive mechanism from the team report.</figcaption>
+    </figure>
+      </div>
+    </section>
+
+    <section class="wrap case-section" id="design">
+      <div class="case-section-label"><p class="eyebrow">02 / Design</p><h2>My contributions</h2></div>
+      <div class="case-content">
+        <p>I worked on the <strong>embedded feedback controller and hardware integration</strong>: reading inertial measurements, estimating roll motion, commanding corrective reaction-wheel actuation, and making the baseline controller usable under real motor constraints.</p>
+        <div class="case-ownership"><strong>My work vs. team work</strong><p>I implemented the roll-control loop and its actuator compensation and integrated the MPU-6050, ESP8266, and motor controller. The chassis, motor selection, steering mechanism, and user-facing interface were developed as part of the team's broader mechanical and electrical system.</p></div>
+        <h3>Feedback loop</h3>
+        <div class="case-process">
+          <div class="case-step"><b>01 · Sense</b><p>Read MPU-6050 inertial data at 100 Hz through I²C.</p></div>
+          <div class="case-step"><b>02 · Estimate</b><p>Filter IMU measurements to obtain a roll-angle and angular-rate estimate.</p></div>
+          <div class="case-step"><b>03 · Correct</b><p>Use a PD law to request reaction-wheel torque opposing the measured roll error.</p></div>
+          <div class="case-step"><b>04 · Constrain</b><p>Account for friction, speed saturation, and low-motion behavior before commanding the motor.</p></div>
+        </div>
+        <h3>Handling real actuator behavior</h3>
+        <ul>
+          <li><strong>Velocity desaturation:</strong> bias the reference roll angle within a safe range as flywheel speed rises, giving gravity a way to oppose stored wheel momentum.</li>
+          <li><strong>Static-friction compensation:</strong> apply a small zero-crossing boost when the motor would otherwise stall near reversal or low speed.</li>
+          <li><strong>Idle braking:</strong> limit unnecessary motor activity when roll angle and roll rate are near zero.</li>
+          <li><strong>Sensor zeroing:</strong> estimate the inertial sensor's startup offset so the controller aims at the physical upright position.</li>
+        </ul>
+        <p>These controls illustrate why a stable simulation does not guarantee stable embedded hardware: the motor has a finite speed and torque range, the IMU is noisy, and the control code must respond to both.</p>
+        <div class="case-figure-grid">
+<figure class="case-figure ">
+      <a href="../assets/projects/ducati/cad.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Final E-Ducati-On three-dimensional CAD design showing lowered mass placement and upgraded reaction wheel.">
+        <img src="../assets/projects/ducati/cad.webp" alt="Final E-Ducati-On three-dimensional CAD design showing lowered mass placement and upgraded reaction wheel." loading="lazy" decoding="async" />
+      </a>
+      <figcaption><strong>Chassis redesign (team work).</strong> Revised CAD lowered the center of mass.</figcaption>
+    </figure><figure class="case-figure ">
+      <a href="../assets/projects/ducati/interface.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Dark-themed browser dashboard for E-Ducati-On showing roll-related traces, steering and throttle controls, and tuning buttons.">
+        <img src="../assets/projects/ducati/interface.webp" alt="Dark-themed browser dashboard for E-Ducati-On showing roll-related traces, steering and throttle controls, and tuning buttons." loading="lazy" decoding="async" />
+      </a>
+      <figcaption><strong>Experiment interface (team work).</strong> Gain-selection and live control display.</figcaption>
+    </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap case-section" id="evaluation">
+      <div class="case-section-label"><p class="eyebrow">03 / Evaluation</p><h2>What the tests showed</h2></div>
+      <div class="case-content">
+        <p>The team used MATLAB/Simulink for preliminary dynamics and controller studies, then evaluated the finished hardware with static balancing, low-speed driving, and small steering inputs. <strong>PID and LQR were compared in simulation, but the physical prototype used the augmented PD controller.</strong></p>
+        <ul>
+          <li><strong>Static balance:</strong> the motorcycle remained upright for several seconds under moderate gains, then could drift and tip as actuator limits or disturbances accumulated.</li>
+          <li><strong>Disturbance recovery:</strong> hardware demonstrations included recovery from approximately 5–10° roll perturbations (as recorded in my resume).</li>
+          <li><strong>Low-speed driving:</strong> lateral stabilization was demonstrated while the vehicle moved forward slowly; smooth surfaces and light steering were the more favorable conditions.</li>
+          <li><strong>Controller limits:</strong> higher proportional gains produced oscillation; IMU noise, friction, and reaction-wheel speed constraints limited performance.</li>
+        </ul>
+<figure class="case-figure ">
+      <a href="../assets/projects/ducati/response.webp" target="_blank" rel="noopener" aria-label="Open full-sized image: Line chart comparing simulated roll angle stabilization under PID and LQR controllers; both settle near zero.">
+        <img src="../assets/projects/ducati/response.webp" alt="Line chart comparing simulated roll angle stabilization under PID and LQR controllers; both settle near zero." loading="lazy" decoding="async" />
+      </a>
+      <figcaption><strong>Simulation only.</strong> Roll-angle responses under PID and LQR on the linearized model (team report). This plot is not a hardware measurement.</figcaption>
+    </figure>
+        <div class="case-caution"><strong>Limitations</strong><p>The reaction-wheel motor had limited corrective authority and could saturate. Wi-Fi latency also made remote tuning less reliable. Aggressive steering and wheelie maneuvers were not validated on the physical motorcycle; wheelie control remained a simulation study.</p></div>
+      </div>
+    </section>
+
+    <section class="wrap case-section" id="takeaways">
+      <div class="case-section-label"><p class="eyebrow">04 / Conclusion</p><h2>Engineering takeaway</h2></div>
+      <div class="case-content">
+        <p>E-Ducati-On demonstrated that embedded IMU feedback and a reaction wheel can stabilize a low-cost motorcycle-style robot in static and low-speed conditions, but also exposed the narrow margins imposed by real hardware.</p>
+        <p>My main takeaway was that <strong>controller deployment is as important as controller design</strong>: saturation handling, friction compensation, bias calibration, and reliable sensing are essential even when the underlying PD law is simple.</p>
+        <p class="case-source-note">Prototype images, simulation figures, and group-level evaluation are from the E-Ducati-On four-person final team report. The descriptions of my individual control and embedded integration work are grounded in my current resume and the team's controller design write-up.</p>
+      </div>
+    </section>
+
+    <div class="wrap case-end">
+      <a href="../index.html#work">← Back to all projects</a>
+      <a href="stair.html">Next: STAIR →</a>
+    </div>
+  </main>
+  <footer><div class="wrap footer-inner"><span>Jiaming Huang</span><span>Robotics software · Controls · Embedded systems</span></div></footer>
+</body>
+</html>

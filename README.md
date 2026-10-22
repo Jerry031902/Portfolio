@@ -1,26 +1,19 @@
-# Jiaming Huang — Engineering Portfolio Starter.
+# Jiaming Huang — Engineering Portfolio
 
-## Assignment checklist already represented
+A static, responsive engineering portfolio showcasing robotics software, controls, and real-world robot integration.
 
-- Introduction / About section
-- Four project or experience sections
-- One-page professional resume
-- Simple navigation
-- Media placeholders
-- Project structure that foregrounds:
-  - problem / goal
-  - specific contribution
-  - evidence / results
-  - social or user value ("Why it matters")
+## Website structure
 
-## Still left as placeholders
+- `index.html` — landing page, About, projects, resume, contact
+- `styles.css` — shared styles
+- `project-pages.css` — full case-study styles
+- `projects/stair.html` — STAIR hybrid quadruped case study
+- `projects/e-ducati-on.html` — E-Ducati-On self-balancing motorcycle case study
+- `assets/projects/` — figures used in the two project pages
+- `assets/Jiaming_Huang_Resume.pdf` — current one-page resume
 
-- Real project images/videos/plots
-- Final "Why it matters" sentences (the headings are present, but the content is blank for now)
-- Any additional project-specific detail
-- Final design-justification memo
+## GitHub Pages
 
-## Publishing
+Commit these files at the root of the `Portfolio` repository. Under Settings → Pages, choose Deploy from a branch, `main`, `/(root)`. Project pages work with the default GitHub Pages project URL, without a custom domain or JavaScript build system.
 
-This folder is ready for host.
-The final portfolio assignment describes the portfolio as a hosted website, so I publish and submit the public URL rather than a local HTML file.
+Project figures are adapted from collaborative final reports and identified as team materials. Confirm any necessary coauthor approval before making them public.
