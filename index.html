@@ -51,13 +51,15 @@
 
         <div class="project-grid">
           <div class="project-copy">
-            <h4>Problem / goal</h4>
+            <h4>Objective</h4>
             <p>
-              Build a simulated inspection pipeline that can locate gauges, select useful viewpoints,
-              navigate safely, and avoid verifying readings when the target is not actually visible.
+              Build a simulated industrial inspection pipeline that locates gauges, selects readable viewpoints,
+              and navigates around obstacles. To support trustworthy autonomous inspection, the system must
+              verify that a gauge is visible before accepting a reading.
             </p>
 
-            <h4>My contribution</h4>
+            <h4>Design &amp; Implementation</h4>
+            <p class="contributions-lead">My contributions included:</p>
             <ul>
               <li>Built an Isaac Sim 5.0 + ROS 2 + Python + Docker inspection pipeline with RGB-D gauge localization.</li>
               <li>Compared VLM-only and geometry-verified navigation across 80 simulated episodes.</li>
@@ -65,15 +67,12 @@
               <li>Integrated footprint-aware collision checking and C++ graph-based planning with Spot's walking controller.</li>
             </ul>
 
-            <h4>Evidence / results</h4>
+            <h4>Results &amp; Evaluation</h4>
             <ul>
               <li>Gauge localization accuracy: approximately 1 cm.</li>
               <li>Visibility verification reduced incorrectly verified readings from 2 to 0 and lowered API cost by 44%.</li>
               <li>The viewpoint policy improved viewing angle on the first move in 30/30 trials and recovered after occlusion.</li>
             </ul>
-
-            <h4>Why it matters</h4>
-            <p class="placeholder-empty" aria-hidden="true"></p>
           </div>
 
           <div class="media-placeholder">
@@ -94,13 +93,15 @@
 
         <div class="project-grid">
           <div class="project-copy">
-            <h4>Problem / goal</h4>
+            <h4>Objective</h4>
             <p>
-              Improve motion and expression generation for a 24-servo animatronic face while
-              simplifying the neck mechanism and maintaining safe, calibrated hardware motion.
+              Develop more natural, synchronized robot interaction by coordinating speech and facial
+              motion in a 24-servo animatronic face, while simplifying the neck mechanism and maintaining
+              calibrated, actuator-limited hardware motion.
             </p>
 
-            <h4>My contribution</h4>
+            <h4>Design &amp; Implementation</h4>
+            <p class="contributions-lead">My contributions included:</p>
             <ul>
               <li>Integrated VLM-generated dialogue and expression keyframes with TTS and audio-driven lip sync.</li>
               <li>Collected 3,000 motor-babbling samples and trained forward/inverse models for actuation.</li>
@@ -110,15 +111,12 @@
               <li>Added calibrated servo mapping, actuator-limit checks, and motion-path validation before hardware commands.</li>
             </ul>
 
-            <h4>Evidence / results</h4>
+            <h4>Results &amp; Evaluation</h4>
             <ul>
               <li>Reduced neck actuator count from six to three.</li>
               <li>Created a learned/model-based actuation pipeline for a 24-servo face.</li>
               <li>Compensated for audio startup latency to align speech and mouth motion.</li>
             </ul>
-
-            <h4>Why it matters</h4>
-            <p class="placeholder-empty" aria-hidden="true"></p>
           </div>
 
           <div class="media-placeholder">

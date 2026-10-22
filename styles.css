@@ -175,13 +175,6 @@ footer { border-top: 1px solid var(--border); background: white; }
   .footer-inner { align-items: flex-start; flex-direction: column; justify-content: center; padding: 20px 0; }
 }
 
-.placeholder-empty { min-height: 1rem; }
-
-.why-placeholder {
-  min-height: 0.8rem;
-  margin: 0;
-}
-
 /* Homepage previews for finished case studies. */
 .project-preview .project-copy > p { max-width:700px; }
 .project-preview .project-grid { align-items:center; }
@@ -189,3 +182,6 @@ footer { border-top: 1px solid var(--border); background: white; }
 .project-read-link:hover,.project-read-link:focus { text-decoration:underline; }
 .project-thumbnail { display:block; }
 .project-thumbnail img { display:block; width:100%; aspect-ratio:5/3; object-fit:cover; background:white; border:1px solid var(--border); border-radius:10px; }
+
+/* Clarify authorship without adding another visual heading. */
+.contributions-lead { margin: 0 0 8px; color: var(--muted); font-size: 0.94rem; }
