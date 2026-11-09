@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Jiaming Huang's CMU CERLAB research: simulated Spot inspection, RGB-D gauge localization, geometric viewpoint selection, and evaluation of VLM readings." />
+  <title>VLM — Robot Manager | Jiaming Huang</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../project-pages.css" />
+  <link rel="stylesheet" href="../assets/projects/research/research.css" />
+</head>
+<body class="case-study research-study">
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <a class="brand" href="../index.html#top">Jiaming Huang</a>
+      <nav aria-label="Primary navigation">
+        <a href="../index.html#about">About</a>
+        <a aria-current="page" href="../index.html#work">Projects</a>
+        <a href="../index.html#resume">Resume</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="case-main">
+    <div class="wrap case-breadcrumb"><a href="../index.html#work">← All projects</a></div>
+    <section class="wrap case-hero" aria-labelledby="research-title">
+      <div>
+        <p class="eyebrow">Graduate research · Carnegie Mellon University · CERLAB</p>
+        <h1 id="research-title">VLM &mdash; Robot Manager</h1>
+        <p class="case-subtitle">VLM-Guided Visual Inspection with Boston Dynamics Spot</p>
+        <p>I built the simulation, perception, viewpoint selection, and evaluation pipeline for gauge inspection, the first working task within a broader language-driven robot manager.</p>
+        <div class="case-skills" aria-label="Relevant skills">
+          <span>Python / C++</span><span>Isaac Sim / USD</span><span>ROS integration</span><span>RGB-D perception</span><span>Motion planning</span><span>VLM evaluation</span>
+        </div>
+        <div class="case-meta"><span>Aug 2025 – Present</span><span>Graduate Research Assistant</span><span>Simulation research</span></div>
+      </div>
+      <figure class="case-video-figure">
+        <video controls playsinline preload="metadata" width="1920" height="1080" poster="../assets/projects/research/inspection-demo-poster.webp" aria-label="Three simulated Spot gauge inspections showing the scene, camera view, map, and final readings. Silent edited observation sequences.">
+          <source src="../assets/projects/research/inspection-demo.mp4" type="video/mp4" />
+          <a href="../assets/projects/research/inspection-demo.mp4">Download the inspection demo.</a>
+        </video>
+        <figcaption>Spot inspection: reposition, re-aim, zoom, and read.</figcaption>
+      </figure>
+      <p class="case-note">Three successful examples from the October 1 factory run. These are edited observations from guarded teleport tests, not continuous walking or real-time footage. Routes were checked but not physically traversed.</p>
+    </section>
+
+    <nav class="wrap case-toc" aria-label="On this project page">
+      <span>On this page:</span><a href="#objective">Objective</a><a href="#design">Design &amp; Implementation</a><a href="#evaluation">Results &amp; Evaluation</a>
+    </nav>
+
+    <section id="objective" class="wrap case-section">
+      <div class="case-section-label"><h2>Objective</h2></div>
+      <div class="case-content">
+        <p>The long-term goal is a robot manager that translates language requests into factory inspection tasks: surveying equipment, obtaining a requested view, and checking operating status. Gauge inspection provides a concrete first test of the shared problem: getting the robot and camera into a position where the observation is useful.</p>
+        <p>The implemented pipeline begins near a target machine, locates the gauge, improves the view, and reads it. General language-based task orchestration and long-term inspection memory remain planned work.</p>
+      </div>
+    </section>
+
+    <section id="design" class="wrap case-section">
+      <div class="case-section-label"><h2>Design &amp; Implementation</h2></div>
+      <div class="case-content">
+        <h3>RGB-D measurement and camera control</h3>
+        <p>I built an Isaac Sim 5.0 / ROS 2 / Docker testbed with a simulated Spot-mounted pan-tilt-zoom camera and configurable gauges. A VLM detects the gauge's 2D bounding box; aligned depth and camera calibration locate it in 3D. RANSAC plane fitting estimates the dial normal for geometric view-angle prediction. The selector uses these measurements, not the gauge's simulator ground truth.</p>
+        <p>The camera re-aims at the measured target after repositioning. A bounded zoom step improves dial size before reading. I created a procedural factory with four circular gauge designs, different ranges and units, and clean and cluttered layouts with cabinets, pipe racks, and low skids.</p>
+
+        <h3>Viewpoint selection with explicit geometry checks</h3>
+        <p>I first implemented a VLM policy that selects map coordinates from RGB, a 2D overlay, and observation history. Obstacle tests motivated separating visual judgment from precise geometry. My geometric selector searches footprint-feasible cells, predicts dial framing and line of sight through the sensed 3D map, and ranks acceptable views by angle and travel distance.</p>
+        <p>I integrated the lab's existing map_manager, GridGraph planner, and autonomous_robot framework through a separate ROS 1 inspection node and ROS 2 adapter. I added checks for the exact requested pose, start/goal connectors, and swept turns instead of relying on the state of a nearby graph node. The factory experiments call the compiled native planner through an isolated runner.</p>
+        <figure class="case-figure">
+          <a href="../assets/projects/research/viewpoint-map.webp" target="_blank" rel="noopener" aria-label="Open the full-size inspection viewpoint map">
+            <img src="../assets/projects/research/viewpoint-map.webp" width="1510" height="1020" loading="lazy" decoding="async" alt="Recorded factory top-down report with occupied obstacles, green endpoint-feasible regions, and the inspection pose" />
+          </a>
+          <figcaption>Recorded endpoint regions and inspection pose; route validation is a separate check.</figcaption>
+        </figure>
+
+        <h3>Fresh observations and explicit outcomes</h3>
+        <p>After a move, fresh visibility and angle checks determine whether to select another viewpoint. The measured target is retained if the gauge temporarily leaves view. Five final-image readings run in parallel; observation quality and reading consistency produce Verified, Uncertain, or Cannot Verify.</p>
+        <p>I logged poses, model replies, and top-down views, with ground truth used only for evaluation. Verified is an online status, not a guarantee: consistent readings can still be wrong.</p>
+        <div class="case-figure-grid">
+          <figure class="case-figure">
+            <a href="../assets/projects/research/gauge-before.webp" target="_blank" rel="noopener" aria-label="Open the initial gauge camera view">
+              <img src="../assets/projects/research/gauge-before.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Initial oblique camera view of the compressor pressure gauge" />
+            </a>
+            <figcaption>Initial oblique view.</figcaption>
+          </figure>
+          <figure class="case-figure">
+            <a href="../assets/projects/research/gauge-after.webp" target="_blank" rel="noopener" aria-label="Open the gauge camera view after repositioning and zoom">
+              <img src="../assets/projects/research/gauge-after.webp" width="1280" height="720" loading="lazy" decoding="async" alt="The same compressor gauge after geometric viewpoint selection, camera re-aiming, and zoom" />
+            </a>
+            <figcaption>After repositioning and zoom.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="evaluation" class="wrap case-section">
+      <div class="case-section-label"><h2>Results &amp; Evaluation</h2></div>
+      <div class="case-content">
+        <h3>Active observation improved the matched pilot</h3>
+        <p>I compared three methods from the same eight oblique starting conditions, for 24 simulated episodes. All used the same reader and five readings per final image. Both moving methods used the same endpoint/route validator and teleport executor.</p>
+        <table class="case-table">
+          <caption>Eight matched conditions per method; September 28–29 pilot.</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">Correct mean reading</th><th scope="col">Correct and Verified</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Fixed viewpoint</th><td>0 / 8</td><td>0 / 8</td></tr>
+            <tr><th scope="row">VLM-selected viewpoint</th><td>8 / 8</td><td>7 / 8</td></tr>
+            <tr><th scope="row">Geometry-selected viewpoint</th><td>8 / 8</td><td>8 / 8</td></tr>
+          </tbody>
+        </table>
+        <p>Correctness meant mean error within 2% of full scale. One VLM-selected view remained partly occluded despite a correct reading. Seven fixed-view episodes returned consistent but incorrect readings, which the observation gate withheld from verification. Geometry also received aligned depth and a sensed 3D map, so this was a system comparison, not an equal-input test of the two selectors.</p>
+
+        <h3>Local selection reduced decision latency</h3>
+        <p>I replaced exhaustive visibility checks with ordered, batched checks that stop once a suitable proposal is found. On nine archived pilot queries, median selection time fell from 6.99 s to 0.84 s with unchanged proposals. Across the eight episodes, optimized local selection averaged 0.95 s versus 21.31 s in the historical VLM selection logs. This compares component timings across runs, not end-to-end system speed.</p>
+        <p>In the latest factory run, selection plus native pose/path validation took a median 1.05 s across six proposals. Five parallel readings took a median 17.06 s per batch. Selection timing excludes initial perception and region construction; neither timing measures walking travel time.</p>
+
+        <h3>Factory transfer and remaining limits</h3>
+        <p>The October 3 development run covered four gauge designs across two layouts: 12 of 15 episodes were correct and Verified, one was falsely Verified, one Uncertain, and one Cannot Verify. Eight starts were already frontal; of the seven oblique starts, five became correct and Verified. The reader inferred PSI, bar, and MPa from the images without range or unit hints.</p>
+        <p>These results demonstrate transfer within the simulator, not held-out generalization or hardware reliability. A false Verified reading persisted even near a frontal view. Current geometry assumes planar circular dials and optimizes horizontal viewing angle. Real depth quality, walking drift, and reading-driven viewpoint recovery remain unqualified.</p>
+
+        <h3>Ongoing: joint movement and camera policy</h3>
+        <p>I am designing a local vision-language-action policy for joint body movements and camera pan/tilt, using geometry-generated expert data and retaining deterministic collision checks. Action labels and input formats are being specified; training and performance evaluation have not started.</p>
+      </div>
+    </section>
+
+    <div class="wrap case-end"><a href="../index.html#work">← Back to all projects</a></div>
+  </main>
+  <footer><div class="wrap footer-inner"><span>Jiaming Huang</span><span>Robotics software · Controls · Embedded systems</span></div></footer>
+</body>
+</html>

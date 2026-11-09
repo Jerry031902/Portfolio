@@ -40,45 +40,23 @@
         <h2>Projects / Experience</h2>
       </div>
 
-      <article class="project">
+      <article class="project project-preview" aria-labelledby="research-preview-title">
         <div class="project-topline">
           <div>
-            <p class="project-kicker">Graduate research · Carnegie Mellon University</p>
-            <h3>VLM-Guided Visual Inspection with Boston Dynamics Spot</h3>
+            <p class="project-kicker">Graduate research · CMU CERLAB</p>
+            <h3 id="research-preview-title">VLM &mdash; Robot Manager</h3>
           </div>
           <p class="project-date">Aug 2025 – Present</p>
         </div>
-
         <div class="project-grid">
           <div class="project-copy">
-            <h4>Objective</h4>
-            <p>
-              Build a simulated industrial inspection pipeline that locates gauges, selects readable viewpoints,
-              and navigates around obstacles. To support trustworthy autonomous inspection, the system must
-              verify that a gauge is visible before accepting a reading.
-            </p>
-
-            <h4>Design &amp; Implementation</h4>
-            <p class="contributions-lead">My contributions included:</p>
-            <ul>
-              <li>Built an Isaac Sim 5.0 + ROS 2 + Python + Docker inspection pipeline with RGB-D gauge localization.</li>
-              <li>Compared VLM-only and geometry-verified navigation across 80 simulated episodes.</li>
-              <li>Developed a closed-loop VLM viewpoint policy using camera images, an occupancy map, and observation history.</li>
-              <li>Integrated footprint-aware collision checking and C++ graph-based planning with Spot's walking controller.</li>
-            </ul>
-
-            <h4>Results &amp; Evaluation</h4>
-            <ul>
-              <li>Gauge localization accuracy: approximately 1 cm.</li>
-              <li>Visibility verification reduced incorrectly verified readings from 2 to 0 and lowered API cost by 44%.</li>
-              <li>The viewpoint policy improved viewing angle on the first move in 30/30 trials and recovered after occlusion.</li>
-            </ul>
+            <p>I build perception, viewpoint selection, and evaluation software for a language-driven industrial inspection robot. The current implementation uses simulated Spot RGB-D observations, geometric planning, and VLM gauge reading.</p>
+            <p>Demonstrated inspection across four gauge designs in two simulated factory layouts, with geometry-based viewpoint selection and route validation taking a measured median of 1.05 s across six proposals.</p>
+            <p><a class="project-read-link" href="projects/research.html">View the research project →</a></p>
           </div>
-
-          <div class="media-placeholder">
-            <strong>Media placeholder</strong>
-            <span>Add an Isaac Sim scene, gauge-localization image, occupancy map, or short navigation demo.</span>
-          </div>
+          <a class="project-thumbnail" href="projects/research.html" aria-label="View the VLM Robot Manager research project">
+            <img src="assets/projects/research/spot-inspection.webp" alt="Simulated Spot facing a pressure gauge beside an equipment skid in the procedural factory" width="960" height="540" loading="lazy" style="height:auto; aspect-ratio:auto;" />
+          </a>
         </div>
       </article>
 
