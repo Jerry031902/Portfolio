@@ -1,0 +1,18 @@
+/* Research-only refinements; shared project and homepage styles are unchanged. */
+.research-study figcaption { text-align: center; }
+.research-study .case-video-figure figcaption { max-width: none; }
+.research-study .case-hero .case-note { font-size: .85rem; color: var(--muted); }
+.research-study .case-figure-grid .case-figure img { aspect-ratio: auto; }
+.research-study .case-content > h3:first-child { margin-top: 0; }
+.research-study .case-table caption {
+  text-align: left;
+  color: var(--muted);
+  font-size: .84rem;
+  padding-bottom: 10px;
+}
+.research-study .case-table { table-layout: fixed; }
+.research-study .case-table th,
+.research-study .case-table td { overflow-wrap: break-word; }
+@media (max-width: 620px) {
+  .research-study section[id] { scroll-margin-top: 122px; }
+}
