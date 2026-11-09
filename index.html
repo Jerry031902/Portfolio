@@ -82,47 +82,23 @@
         </div>
       </article>
 
-      <article class="project">
+      <article class="project project-preview" aria-labelledby="tencent-preview-title">
         <div class="project-topline">
           <div>
             <p class="project-kicker">Internship · Tencent America</p>
-            <h3>Knowhere Animatronic Robot</h3>
+            <h3 id="tencent-preview-title">Knowhere Animatronic Robot</h3>
           </div>
           <p class="project-date">Jun 2026 – Sep 2026</p>
         </div>
-
         <div class="project-grid">
           <div class="project-copy">
-            <h4>Objective</h4>
-            <p>
-              Develop more natural, synchronized robot interaction by coordinating speech and facial
-              motion in a 24-servo animatronic face, while simplifying the neck mechanism and maintaining
-              calibrated, actuator-limited hardware motion.
-            </p>
-
-            <h4>Design &amp; Implementation</h4>
-            <p class="contributions-lead">My contributions included:</p>
-            <ul>
-              <li>Integrated VLM-generated dialogue and expression keyframes with TTS and audio-driven lip sync.</li>
-              <li>Collected 3,000 motor-babbling samples and trained forward/inverse models for actuation.</li>
-              <li>Combined model-based optimization with direct interpolation in a hybrid controller for the silicone face.</li>
-              <li>Mapped MediaPipe-tracked expressions to the robot with per-user calibration, EMA smoothing, and grouped servo commands.</li>
-              <li>Redesigned a 6-DoF neck as a 3-DoF yaw–pitch–roll mechanism and implemented CAD-derived inverse kinematics.</li>
-              <li>Added calibrated servo mapping, actuator-limit checks, and motion-path validation before hardware commands.</li>
-            </ul>
-
-            <h4>Results &amp; Evaluation</h4>
-            <ul>
-              <li>Reduced neck actuator count from six to three.</li>
-              <li>Created a learned/model-based actuation pipeline for a 24-servo face.</li>
-              <li>Compensated for audio startup latency to align speech and mouth motion.</li>
-            </ul>
+            <p>I developed dialogue, speech-synchronized facial motion, and live expression mimicry for a 24-servo silicone face, combining trained actuation models with direct servo control. I also redesigned the neck and implemented its inverse kinematics.</p>
+            <p>Trained on 3,000 motor-babbling samples; reduced the neck from six actuators to three for yaw, pitch, and roll.</p>
+            <p><a class="project-read-link" href="projects/tencent.html">View the Tencent project →</a></p>
           </div>
-
-          <div class="media-placeholder">
-            <strong>Media placeholder</strong>
-            <span>Add a robot photo/video, neck CAD, linkage diagram, or actuation-model visualization.</span>
-          </div>
+          <a class="project-thumbnail" href="projects/tencent.html" aria-label="View the password-protected Tencent project">
+            <img src="assets/projects/tencent/tencent-logo.png" alt="Tencent logo" width="2162" height="889" loading="lazy" style="height:auto; object-fit:contain; padding:24px;" />
+          </a>
         </div>
       </article>
 
